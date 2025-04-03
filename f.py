@@ -88,7 +88,7 @@ def main():
     
     save_option = input("Do you want to save the Braille art? (yes/no): ").strip().lower()
     if save_option == 'yes':
-        output_path = input("Enter the  fil name (e.g., output.txt): ").strip()
+        output_path = input("Enter the output file name (e.g., output.txt): ").strip()
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(braille_art)
         print(f"Braille art saved to {output_path}")
