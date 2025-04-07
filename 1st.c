@@ -1,29 +1,21 @@
 #include <stdio.h>
 #include <string.h>
-#define POLYNOMIAL 0xD8
-#define WIDTH 8
-#define TOPBIT (1 << (WIDTH - 1))
+#define P 0xD8
+#define W 8
+#define T (1 << (W - 1))
 
-unsigned char crc8(unsigned char *data, size_t length) {
-    unsigned char remainder = 0;
-    for (size_t byte = 0; byte < length; ++byte) {
-        remainder ^= data[byte];
-        for (unsigned char bit = 8; bit > 0; --bit) {
-            if (remainder & TOPBIT) {
-                remainder = (remainder << 1) ^ POLYNOMIAL;
-            } else {
-                remainder = (remainder << 1);
-            }
-        }
+unsigned char c(unsigned char *d, size_t l) {
+    unsigned char r = 0;
+    for (size_t i = 0; i < l; ++i) {
+        r ^= d[i];
+        for (unsigned char b = 8; b > 0; --b)
+            r = (r & T) ? (r << 1) ^ P : r << 1;
     }
-    return remainder;
+    return r;
 }
 
 int main() {
-    unsigned char message[] = "Hello, CRC!";
-    size_t messageLength = strlen((char *)message);
-    unsigned char crc = crc8(message, messageLength);
-    printf("Message: %s\n", message);
-    printf("CRC: 0x%02X\n", crc);
+    unsigned char m[] = "Hello, tejesh!";
+    printf("Message: %s\nCRC: 0x%02X\n", m, c(m, strlen((char *)m)));
     return 0;
 }
