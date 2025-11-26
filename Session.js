@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Cookies from "js-cookie";
 
 export default function SessionExample() {
   const [username, setUsername] = useState("");
@@ -7,21 +6,16 @@ export default function SessionExample() {
 
   useEffect(() => {
     const user = sessionStorage.getItem("sessionUser");
-    const cookieUser = Cookies.get("cookieUser");
-
     if (user) setSessionUser(user);
-    else if (cookieUser) setSessionUser(cookieUser);
   }, []);
 
   const handleLogin = () => {
     sessionStorage.setItem("sessionUser", username);
-    Cookies.set("cookieUser", username, { expires: 1 }); // expires in 1 day
     setSessionUser(username);
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem("sessionUser");
-    Cookies.remove("cookieUser");
     setSessionUser("");
   };
 
@@ -29,7 +23,7 @@ export default function SessionExample() {
     <div style={{ margin: 30 }}>
       {!sessionUser ? (
         <>
-          <h2>Session Management Example</h2>
+          <h2>Session Management Example (No Cookies)</h2>
           <input
             placeholder="Enter username"
             onChange={(e) => setUsername(e.target.value)}
